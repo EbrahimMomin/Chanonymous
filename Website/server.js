@@ -6,15 +6,38 @@ const app = express(); // Create the actual express app
 
 const PORT = process.env.PORT || 4001; // Get the port on which the app will listen
 
-app.listen(PORT, listening); // Listen for connections
+const rooms = [];
 
-app.use(express.static(''));
+app.use(express.static('public')); //Serve the front end, located in Website/public
 
 
-function listening() {
+app.get('/room/:room_number', (request, response, next) => {
+    var roomExists = false; // Creates a new variable roomExists and sets it to false
+    var user; // Creates a new variable user
+
+    var room; // Creates a new variable room, which will be returned
+
+    for (var i = 0; i < rooms.length; i++) {
+        if (rooms[i].getCode() == request.params.room_number) {
+            room = rooms[i]; // Sets the variable room to the room which has the code the user entered
+            user = room.letUserJoin(); // Lets the user join the room, and sets the user variable to the user that is returned
+            roomExists = true; // Sets the variable roomExists to true
+
+        } // Check if the room exists
+    } // Loop through all the rooms
+
+    if (!roomExists) {
+        room = new Room(request.params.room_number);
+        user = room.letUserJoin();
+    } // Runs if room doesn't exist
+
+    response.send(response.json(room)); // Sends the variable room in json format because it is a javascript object
+
+}); // Code runs when server gets a get request, the arguements request, response, and next get passed in, room_number can be anything
+
+app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`); // Print out the port the app is listening on
-} // The function which will get called when it listens
-
+}); // Listen for connections
 
 class Room {
     constructor(code) {

@@ -1,6 +1,6 @@
 import { Room } from './classes.js'; //Import the Room class from classes.js, the other classes don't get exported
 
-const express = require('express'); // Get express package
+import express from 'express' // Get express package
 
 const app = express(); // Create the actual express app
 
@@ -11,7 +11,7 @@ const rooms = [];
 app.use(express.static('public')); //Serve the front end, located in Website/public
 
 
-app.get('/room/:room_number', (request, response, next) => {
+app.get('/room', (request, response, next) => {
     var roomExists = false; // Creates a new variable roomExists and sets it to false
     var user; // Creates a new variable user
 
@@ -31,8 +31,9 @@ app.get('/room/:room_number', (request, response, next) => {
         user = room.letUserJoin();
     } // Runs if room doesn't exist
 
-    response.send(response.json(room)); // Sends the variable room in json format because it is a javascript object
+    response.send(room.getCode()); // Sends the variable room in json format because it is a javascript object
 
+    console.log('GET Request'); // Prints GET Request to the console when the server recieves a get request
 }); // Code runs when server gets a get request, the arguements request, response, and next get passed in, room_number can be anything
 
 app.listen(PORT, () => {

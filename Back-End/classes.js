@@ -1,21 +1,4 @@
-import { Room } from './classes.js'; //Import the Room class from classes.js, the other classes don't get exported
-
-const express = require('express'); // Get express package
-
-const app = express(); // Create the actual express app
-
-const PORT = process.env.PORT || 4001; // Get the port on which the app will listen
-
-app.listen(PORT, listening); // Listen for connections
-
-
-
-function listening() {
-    console.log(`Listening on port ${PORT}`); // Print out the port the app is listening on
-} // The function which will get called when it listens
-
-
-class Room {
+export class Room {
     constructor(code) {
         this.code = code; // Sets this.code to the code parameter which is passed into the constructor
         this.users = []; // Sets this.users to a empty array which will be filled as users join the room
@@ -43,7 +26,7 @@ class Room {
     sendMessage(user, message) {
         this.messages.push(new Message(user, message)); // Adds a message to this.messages
     } // Called by User.sendMessage(string) when user sends a message.
-} // A room is a place where you can chat and see chat messages
+} // A room is a place where you can chat and see chat messages. Gets exported
 
 class User {
     constructor(username, room) {
@@ -54,7 +37,7 @@ class User {
     sendMessage(message) {
         this.room.sendMessage(this, message); // Call the Room.sendMessage(User, string) method to send a message
     } // The function that would be called when they send a message
-} // A user are the indivisual users in the room
+} // A user are the indivisual users in the room. DOesn't get exported
 
 class Message {
     constructor(user, message) {
@@ -65,9 +48,4 @@ class Message {
     getMessageData() {
         return [this.user, this.message]; // Return the user and message, in array
     } // Returns the user and message of the Message in array, format: [user, message]
-} // The message class, which fills up the messages array in Room
-
-room = new Room("1");
-const testUser = room.letUserJoin();
-room.sendMessage(testUser, "Hello");
-room.letUserLeave(testUser);
+} // The message class, which fills up the messages array in room. Doesn't get exported

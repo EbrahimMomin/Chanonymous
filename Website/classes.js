@@ -26,6 +26,18 @@ export class Room {
     sendMessage(user, message) {
         this.messages.push(new Message(user, message)); // Adds a message to this.messages
     } // Called by User.sendMessage(string) when user sends a message.
+
+    getMessages() {
+        return this.messages; // Returns the list this.messages
+    } // Used to get the messages in a room
+
+    getUsers() {
+        return this.users; // Returns the list this.users
+    } // Used to get the messages in a room
+
+    getCode() {
+        return this.code; // Returns the code of the room
+    } // Used to get the code of a room
 } // A room is a place where you can chat and see chat messages. Gets exported
 
 class User {
